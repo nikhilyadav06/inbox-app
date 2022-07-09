@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 import javax.annotation.PostConstruct;
 
-import io.inbox.email.EmailService;
+// import io.inbox.email.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,12 +15,17 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.inbox.folders.Folder;
+import io.inbox.folders.FolderRepository;
+
 @SpringBootApplication
 @RestController
 public class InboxApp {
 
-	@Autowired
-	private EmailService emailService;
+	// @Autowired
+	// private EmailService emailService;
+
+	@Autowired private FolderRepository folderRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(InboxApp.class, args);
@@ -32,15 +37,22 @@ public class InboxApp {
 		return builder -> builder.withCloudSecureConnectBundle(bundle);
 	}
 
-	@PostConstruct
-	public void initializeData() {
+	@Autowired
+	public void init() {
+		folderRepository.save(new Folder("nikhilyadav06", "Inbox", "blue"));
+		folderRepository.save(new Folder("nikhilyadav06", "Sent Items", "green"));
+		folderRepository.save(new Folder("nikhilyadav06", "Important", "yellow"));
+	}
 
-		for (int i = 0; i < 10; i++) {
+	// @PostConstruct
+	// public void initializeData() {
 
-			emailService.sendEmail("koushikkothagal", "koushikkothagal", "Test " + i, "Body " + i);
-		}
+	// 	for (int i = 0; i < 10; i++) {
+
+	// 		emailService.sendEmail("koushikkothagal", "koushikkothagal", "Test " + i, "Body " + i);
+	// 	}
 		
 
-	}
+	// }
 
 }
