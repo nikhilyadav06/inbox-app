@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import io.inbox.email.Email;
 import io.inbox.email.EmailRepository;
+import io.inbox.email.EmailService;
 import io.inbox.emaillist.EmailListItem;
 import io.inbox.emaillist.EmailListItemKey;
 import io.inbox.emaillist.EmailListItemRepository;
@@ -29,6 +30,7 @@ public class EmailViewController {
 
     @Autowired private FolderRepository folderRepository;
     @Autowired private FolderService folderService;
+    @Autowired private EmailService emailService;
     @Autowired private EmailRepository emailRepository;
     @Autowired private EmailListItemRepository emailListItemRepository;
     @Autowired private UnreadEmailStatsRepository unreadEmailStatsRepository;
@@ -62,7 +64,7 @@ public class EmailViewController {
         String toIds = String.join(", ", email.getTo());
 
         // Check if user is allowed to view the email
-        if (!userId.equals(email.getFrom()) && !email.getTo().contains(userId)) {
+        if (!emailService.doesHaveAccess(email, userId)) {
             return "redirect:/";
         }
 

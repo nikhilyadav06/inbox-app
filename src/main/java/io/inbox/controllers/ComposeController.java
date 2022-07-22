@@ -3,6 +3,8 @@ package io.inbox.controllers;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import io.inbox.email.Email;
+import io.inbox.email.EmailRepository;
 import io.inbox.email.EmailService;
 import io.inbox.folders.Folder;
 import io.inbox.folders.FolderRepository;
@@ -28,11 +32,13 @@ public class ComposeController {
 
     @Autowired private FolderRepository folderRepository;
     @Autowired private FolderService folderService;
+    @Autowired private EmailRepository emailRepository;
     @Autowired private EmailService emailService;
     
     @GetMapping(value = "/compose")
     public String getComposePage(
         @RequestParam(required = false) String to,
+        @RequestParam(required = false) UUID id,
         @AuthenticationPrincipal OAuth2User principal,
         Model model
     ) {
@@ -52,6 +58,15 @@ public class ComposeController {
         List<String> uniqueToIds = splitIds(to);
 
         model.addAttribute("toIds", String.join(", ", uniqueToIds));
+
+        Optional<Email> optionalEmail = emailRepository.findById(id);
+        if (optionalEmail.isPresent()) {
+            Email email = optionalEmail.get();
+            if (emailService.doesHaveAccess(email, userId)) {
+                model.addAttribute("subject", emailService.getReplySubject(email.getSubject()));
+                model.addAttribute("body", emailService.getReplyBody(email));
+            }
+        }
 
         return "compose-page";
     }

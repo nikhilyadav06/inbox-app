@@ -12,24 +12,13 @@ import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomi
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.datastax.oss.driver.api.core.uuid.Uuids;
-
-import io.inbox.email.Email;
-import io.inbox.email.EmailRepository;
 import io.inbox.email.EmailService;
-import io.inbox.emaillist.EmailListItem;
-import io.inbox.emaillist.EmailListItemKey;
-import io.inbox.emaillist.EmailListItemRepository;
 import io.inbox.folders.Folder;
 import io.inbox.folders.FolderRepository;
-import io.inbox.folders.UnreadEmailStatsRepository;
 
 @SpringBootApplication
 @RestController
 public class InboxApp {
-
-	// @Autowired
-	// private EmailService emailService;
 
 	@Autowired private FolderRepository folderRepository;
 	@Autowired private EmailService emailService;
