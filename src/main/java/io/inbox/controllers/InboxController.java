@@ -61,6 +61,7 @@ public class InboxController {
         });
         model.addAttribute("emailList", emailList);
         model.addAttribute("folderName", folder);
+        model.addAttribute("userName", principal.getAttribute("name"));
 
         return "inbox-page";
 

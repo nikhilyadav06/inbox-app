@@ -46,18 +46,22 @@
     <div class="container">
 
         <header>
-            <h1>Welcome, Name</h1>
+            <h3 class="mt-3">
+                Inbox App
+                <small class="text-muted">Welcome </small>
+                <small class="text-muted" th:text="${userName}">Welcome</small>
+            </h3>
         </header>
 
         <nav>
             <div class="card">
                 <a href="/compose" class="btn btn-primary">Compose Message</a>
             </div>
-            <div th:insert="components/folder-list.html :: folder-list (panelName = 'Folders', folders = ${defaultFolders})"></div>
-            <div th:insert="components/folder-list.html :: folder-list (panelName = 'User Folders', folders = ${userFolders})"></div>
+            <div class="mt-3" th:insert="components/folder-list.html :: folder-list (panelName = 'Folders', folders = ${defaultFolders})"></div>
+            <div class="mt-3" th:insert="components/folder-list.html :: folder-list (panelName = 'User Folders', folders = ${userFolders})"></div>
         </nav>
 
-        <main>
+        <main class="mb-3">
             <div class="card">
                 <div class="card-header">View Email</div>
 

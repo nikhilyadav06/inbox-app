@@ -55,15 +55,4 @@ public class InboxApp {
 		}
 	}
 
-	// @PostConstruct
-	// public void initializeData() {
-
-	// 	for (int i = 0; i < 10; i++) {
-
-	// 		emailService.sendEmail("koushikkothagal", "koushikkothagal", "Test " + i, "Body " + i);
-	// 	}
-		
-
-	// }
-
 }
